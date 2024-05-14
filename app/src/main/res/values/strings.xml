@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WaTeFinder</string>
+    <string name="header">WhatsApp &amp; Telegram non-contacts finder</string>
+    <string name="history">History</string>
+    <string name="phone_hint">Phone number (eg. 01234xxxxxx)</string>
+    <string name="i18n_phones_hint">\u0020For non-egyptian numbers, add country code!</string>
+	<string name="message_hint">Message (optional)</string>
+</resources>

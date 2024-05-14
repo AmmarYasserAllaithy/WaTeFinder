@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity" >
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="32dp" >
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center_horizontal"
+            android:text="@string/header"
+            android:textColor="@color/purple_500"
+            android:textSize="32sp" />
+
+        <EditText
+            android:id="@+id/et_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv"
+            android:background="@drawable/bg_et"
+            android:hint="@string/phone_hint"
+            android:inputType="phone"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toBottomOf="@id/et_number"
+            android:text="@string/i18n_phones_hint" />
+
+        <EditText
+            android:id="@+id/et_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/gap"
+            android:layout_marginTop="@dimen/gap"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_hint"
+            android:background="@drawable/bg_et"
+            android:gravity="top"
+            android:hint="@string/message_hint"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minLines="5"
+            android:padding="16dp" />
+
+        <ImageButton
+            android:id="@+id/ib_wa"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ib_h"
+            android:layout_marginEnd="@dimen/gap"
+            android:layout_marginTop="@dimen/gap"
+            app:layout_constraintEnd_toStartOf="@id/ib_te"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toBottomOf="@id/et_text"
+            android:background="@drawable/bg_et"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/whatsapp" />
+
+        <ImageButton
+            android:id="@+id/ib_te"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/ib_h"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toEndOf="@id/ib_wa"
+            app:layout_constraintTop_toTopOf="@id/ib_wa"
+            android:background="@drawable/bg_et"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/telegram" />
+
+        <TextView
+            android:id="@+id/tv_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toBottomOf="@id/ib_wa"
+            android:text="@string/history"
+            android:textColor="@color/purple_200"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_history"
+            tools:itemCount="5"
+            tools:listitem="@layout/history_record" />
+        
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<color name="et_bg">#353739</color>
+	<color name="et_pressed_bg">#252729</color>
+</resources>
