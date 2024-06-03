@@ -1,5 +1,4 @@
 <resources>
     <dimen name="gap">24dp</dimen>
-    <dimen name="ib_w">160dp</dimen>
-    <dimen name="ib_h">64dp</dimen>
+    <dimen name="ib_h">52dp</dimen>
 </resources>

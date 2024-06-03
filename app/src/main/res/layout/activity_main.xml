@@ -4,101 +4,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity" >
-    
+    tools:context=".MainActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="32dp" >
+        android:padding="32dp">
 
         <TextView
             android:id="@+id/tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/et_number"
-            app:layout_constraintStart_toStartOf="@id/et_number"
-            app:layout_constraintTop_toTopOf="parent"
             android:gravity="center_horizontal"
             android:text="@string/header"
             android:textColor="@color/purple_500"
-            android:textSize="32sp" />
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/gap"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv"
             android:background="@drawable/bg_et"
             android:hint="@string/phone_hint"
             android:inputType="phone"
-            android:padding="16dp" />
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv" />
 
         <TextView
             android:id="@+id/tv_hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/i18n_phones_hint"
             app:layout_constraintEnd_toEndOf="@id/et_number"
             app:layout_constraintStart_toStartOf="@id/et_number"
-            app:layout_constraintTop_toBottomOf="@id/et_number"
-            android:text="@string/i18n_phones_hint" />
+            app:layout_constraintTop_toBottomOf="@id/et_number" />
 
         <EditText
             android:id="@+id/et_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/gap"
             android:layout_marginTop="@dimen/gap"
-            app:layout_constraintEnd_toEndOf="@id/et_number"
-            app:layout_constraintStart_toStartOf="@id/et_number"
-            app:layout_constraintTop_toBottomOf="@id/tv_hint"
+            android:layout_marginBottom="@dimen/gap"
             android:background="@drawable/bg_et"
             android:gravity="top"
             android:hint="@string/message_hint"
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="5"
-            android:padding="16dp" />
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_hint" />
 
         <ImageButton
             android:id="@+id/ib_wa"
             android:layout_width="0dp"
             android:layout_height="@dimen/ib_h"
-            android:layout_marginEnd="@dimen/gap"
             android:layout_marginTop="@dimen/gap"
-            app:layout_constraintEnd_toStartOf="@id/ib_te"
-            app:layout_constraintStart_toStartOf="@id/et_number"
-            app:layout_constraintTop_toBottomOf="@id/et_text"
-            android:background="@drawable/bg_et"
+            android:layout_marginEnd="@dimen/gap"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/icon"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/whatsapp" />
+            android:src="@drawable/whatsapp"
+            app:layout_constraintEnd_toStartOf="@id/ib_te"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toBottomOf="@id/et_text" />
 
         <ImageButton
             android:id="@+id/ib_te"
             android:layout_width="0dp"
             android:layout_height="@dimen/ib_h"
-            app:layout_constraintEnd_toEndOf="@id/et_number"
-            app:layout_constraintStart_toEndOf="@id/ib_wa"
-            app:layout_constraintTop_toTopOf="@id/ib_wa"
-            android:background="@drawable/bg_et"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/icon"
             android:padding="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/telegram" />
+            android:src="@drawable/telegram"
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toEndOf="@id/ib_wa"
+            app:layout_constraintTop_toTopOf="@id/ib_wa" />
 
         <TextView
             android:id="@+id/tv_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="@id/et_number"
-            app:layout_constraintStart_toStartOf="@id/et_number"
-            app:layout_constraintTop_toBottomOf="@id/ib_wa"
             android:text="@string/history"
             android:textColor="@color/purple_200"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textSize="16sp" />
+            app:layout_constraintEnd_toEndOf="@id/et_number"
+            app:layout_constraintStart_toStartOf="@id/et_number"
+            app:layout_constraintTop_toBottomOf="@id/ib_wa" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -111,7 +113,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_history"
             tools:itemCount="5"
             tools:listitem="@layout/history_record" />
-        
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -6,4 +6,6 @@
     <string name="phone_hint">Phone number (eg. 01234xxxxxx)</string>
     <string name="i18n_phones_hint">\u0020For non-egyptian numbers, add country code!</string>
 	<string name="message_hint">Message (optional)</string>
+    <string name="delete">Delete</string>
+    <string name="icon">icon</string>
 </resources>
