@@ -4,7 +4,7 @@
     <string name="header">ابحث في واتساب وتليجرام عن الأرقام غير المسجلة لديك</string>
     <string name="history">السجل</string>
     <string name="phone_hint">رقم الهاتف (مثل: 01234xxxxxx)</string>
-    <string name="i18n_phones_hint">\u0020للأرقام غير المصرية، أضف كود الدولة!</string>
+    <string name="i18n_phones_hint">للأرقام غير المصرية، أضف كود الدولة!</string>
     <string name="message_hint">الرسالة (اختياري)</string>
     <string name="delete">حذف</string>
     <string name="icon">أيقونة</string>
