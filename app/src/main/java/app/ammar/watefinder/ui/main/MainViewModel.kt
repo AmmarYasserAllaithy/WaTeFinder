@@ -29,8 +29,8 @@ class MainViewModel(private val repository: AccountRepository) : ViewModel() {
             initialValue = MainContract.State(),
         )
 
-    private val _events = MutableSharedFlow<MainContract.Effect>()
-    val events = _events.asSharedFlow()
+    private val _effects = MutableSharedFlow<MainContract.Effect>()
+    val effects = _effects.asSharedFlow()
 
 
     fun onNumberChange(newNumber: String) {
@@ -49,7 +49,7 @@ class MainViewModel(private val repository: AccountRepository) : ViewModel() {
             _uiState.update { it.copy(isNumberError = true) }
 
             viewModelScope.launch {
-                _events.emit(MainContract.Effect.ShowToast(R.string.invalid_phone))
+                _effects.emit(MainContract.Effect.ShowToast(R.string.invalid_phone))
             }
 
             return
@@ -65,7 +65,7 @@ class MainViewModel(private val repository: AccountRepository) : ViewModel() {
 
             val url = buildUrl(formattedNumber, currentState.message, isTe)
 
-            _events.emit(MainContract.Effect.OpenUrl(url))
+            _effects.emit(MainContract.Effect.OpenUrl(url))
         }
     }
 
@@ -73,7 +73,7 @@ class MainViewModel(private val repository: AccountRepository) : ViewModel() {
         viewModelScope.launch {
             repository.deleteAccount(account)
 
-            _events.emit(MainContract.Effect.ShowToast(R.string.deleted))
+            _effects.emit(MainContract.Effect.ShowToast(R.string.deleted))
         }
     }
 
