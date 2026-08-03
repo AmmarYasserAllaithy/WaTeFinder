@@ -1,15 +1,16 @@
-package app.ammar.watefinder.data
+package app.ammar.watefinder.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import app.ammar.watefinder.data.local.entity.AccountEntity
 
 
 @Database(
-    entities = [Account::class],
+    entities = [AccountEntity::class],
     version = 1,
-    exportSchema = false
+    exportSchema = false,
 )
 abstract class AccountDatabase : RoomDatabase() {
 
@@ -36,5 +37,4 @@ abstract class AccountDatabase : RoomDatabase() {
             }
         }
     }
-
 }
