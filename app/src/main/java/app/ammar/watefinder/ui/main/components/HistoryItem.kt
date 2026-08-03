@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDirection
@@ -37,7 +36,7 @@ fun HistoryItem(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colorScheme.primary.copy(.1f))
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             .clickable(onClick = onClick)
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -51,22 +50,25 @@ fun HistoryItem(
                 text = account.displayFormat,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Icon(
                 imageVector = Icons.Outlined.Clear,
                 contentDescription = stringResource(R.string.delete),
-                tint = Color.Gray,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
                     .clickable(onClick = onDelete)
-                    .size(16.dp)
+                    .size(20.dp)
+                    .padding(4.dp)
             )
         }
 
         if (account.message.isNotBlank()) {
             Text(
                 text = account.message,
-                color = Color.DarkGray,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     textDirection = TextDirection.ContentOrLtr,
                 ),
