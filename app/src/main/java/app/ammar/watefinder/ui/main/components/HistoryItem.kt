@@ -35,7 +35,7 @@ fun HistoryItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             .clickable(onClick = onClick)
             .padding(12.dp),
@@ -60,7 +60,7 @@ fun HistoryItem(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
                     .clickable(onClick = onDelete)
-                    .size(20.dp)
+                    .size(24.dp)
                     .padding(4.dp)
             )
         }

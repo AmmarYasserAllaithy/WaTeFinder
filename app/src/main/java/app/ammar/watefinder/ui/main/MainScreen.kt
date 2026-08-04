@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -23,8 +25,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -70,7 +74,10 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(stringResource(id = R.string.app_name))
+                    Text(
+                        stringResource(id = R.string.app_name),
+                        fontWeight = FontWeight.Bold,
+                    )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
@@ -85,6 +92,25 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
                 .padding(padding)
                 .padding(16.dp)
         ) {
+            val unifiedRadius = 14.dp
+            val containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+
+            val fieldColors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = containerColor,
+                unfocusedContainerColor = containerColor,
+                disabledContainerColor = containerColor,
+                errorContainerColor = containerColor,
+
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                errorTextColor = MaterialTheme.colorScheme.onSurface,
+
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent,
+                disabledBorderColor = Color.Transparent,
+                errorBorderColor = Color.Transparent,
+            )
 
             OutlinedTextField(
                 value = uiState.number,
@@ -100,6 +126,8 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 isError = uiState.isNumberError,
+                shape = RoundedCornerShape(unifiedRadius),
+                colors = fieldColors,
                 supportingText = {
                     if (uiState.isNumberError) {
                         Text(text = stringResource(id = R.string.invalid_phone))
@@ -119,48 +147,60 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 8.dp),
+                    .padding(top = 12.dp),
                 minLines = 3,
                 textStyle = MaterialTheme.typography.bodyMedium.copy(
                     textDirection = TextDirection.ContentOrLtr,
                 ),
+                shape = RoundedCornerShape(unifiedRadius),
+                colors = fieldColors,
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Button(
                     onClick = { viewModel.onFindClicked(isTe = false) },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(unifiedRadius),
                 ) {
-                    Text(stringResource(id = R.string.whatsapp))
+                    Text(
+                        stringResource(id = R.string.whatsapp),
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
                 }
 
                 Button(
                     onClick = { viewModel.onFindClicked(isTe = true) },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(unifiedRadius)
                 ) {
-                    Text(stringResource(id = R.string.telegram))
+                    Text(
+                        stringResource(id = R.string.telegram),
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
                 }
             }
 
             HorizontalDivider(
-                thickness = 0.5.dp,
-                modifier = Modifier.padding(vertical = 16.dp),
+                thickness = 1.dp,
+                modifier = Modifier.padding(vertical = 20.dp),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
             )
 
             Text(
                 text = stringResource(id = R.string.history),
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 12.dp)
             )
 
             LazyColumn(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 items(uiState.history, key = { it.number + it.created }) { account ->
                     HistoryItem(
