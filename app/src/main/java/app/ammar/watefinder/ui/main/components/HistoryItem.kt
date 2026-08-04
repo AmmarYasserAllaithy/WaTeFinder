@@ -21,9 +21,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDirection
-import androidx.compose.ui.unit.dp
 import app.ammar.watefinder.R
 import app.ammar.watefinder.domain.model.AccountModel
+import app.ammar.watefinder.ui.theme.Variables
 
 
 @Composable
@@ -35,11 +35,11 @@ fun HistoryItem(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(Variables.Space400))
             .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             .clickable(onClick = onClick)
-            .padding(12.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+            .padding(Variables.Space300),
+        verticalArrangement = Arrangement.spacedBy(Variables.Space100),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -58,10 +58,10 @@ fun HistoryItem(
                 contentDescription = stringResource(R.string.delete),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
+                    .clip(RoundedCornerShape(Variables.Radius200))
                     .clickable(onClick = onDelete)
-                    .size(24.dp)
-                    .padding(4.dp)
+                    .size(Variables.Space600)
+                    .padding(Variables.Space100)
             )
         }
 

@@ -3,10 +3,13 @@ package app.ammar.watefinder.ui.main
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -30,11 +33,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.ammar.watefinder.R
 import app.ammar.watefinder.ui.main.components.HistoryItem
+import app.ammar.watefinder.ui.theme.Variables
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -86,131 +91,136 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
             )
         }
     ) { padding ->
-        Column(
+
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(16.dp)
+                .imePadding(),
+            contentPadding = PaddingValues(
+                top = Variables.Space300 + padding.calculateTopPadding(),
+                start = Variables.Space400 + padding.calculateStartPadding(LayoutDirection.Ltr),
+                end = Variables.Space400 + padding.calculateEndPadding(LayoutDirection.Ltr),
+                bottom = Variables.Space400 + padding.calculateBottomPadding(),
+            ),
+            verticalArrangement = Arrangement.spacedBy(Variables.Space300),
         ) {
-            val unifiedRadius = 14.dp
-            val containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
+            item {
+                val unifiedRoundedShape = RoundedCornerShape(Variables.Radius300)
+                val containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
 
-            val fieldColors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = containerColor,
-                unfocusedContainerColor = containerColor,
-                disabledContainerColor = containerColor,
-                errorContainerColor = containerColor,
+                val fieldColors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = containerColor,
+                    unfocusedContainerColor = containerColor,
+                    disabledContainerColor = containerColor,
+                    errorContainerColor = containerColor,
 
-                focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                errorTextColor = MaterialTheme.colorScheme.onSurface,
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                    errorTextColor = MaterialTheme.colorScheme.onSurface,
 
-                focusedBorderColor = Color.Transparent,
-                unfocusedBorderColor = Color.Transparent,
-                disabledBorderColor = Color.Transparent,
-                errorBorderColor = Color.Transparent,
-            )
+                    focusedBorderColor = Color.Transparent,
+                    unfocusedBorderColor = Color.Transparent,
+                    disabledBorderColor = Color.Transparent,
+                    errorBorderColor = Color.Transparent,
+                )
 
-            OutlinedTextField(
-                value = uiState.number,
-                onValueChange = {
-                    viewModel.onNumberChange(it)
-                },
-                label = {
-                    Text(stringResource(id = R.string.phone_label))
-                },
-                placeholder = {
-                    Text(stringResource(id = R.string.phone_placeholder))
-                },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                isError = uiState.isNumberError,
-                shape = RoundedCornerShape(unifiedRadius),
-                colors = fieldColors,
-                supportingText = {
-                    if (uiState.isNumberError) {
-                        Text(text = stringResource(id = R.string.invalid_phone))
-                    } else {
-                        Text(text = stringResource(id = R.string.i18n_phones_hint))
+
+                OutlinedTextField(
+                    value = uiState.number,
+                    onValueChange = {
+                        viewModel.onNumberChange(it)
+                    },
+                    label = {
+                        Text(stringResource(id = R.string.phone_label))
+                    },
+                    placeholder = {
+                        Text(stringResource(id = R.string.phone_placeholder))
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    isError = uiState.isNumberError,
+                    shape = unifiedRoundedShape,
+                    colors = fieldColors,
+                    supportingText = {
+                        if (uiState.isNumberError) {
+                            Text(text = stringResource(id = R.string.invalid_phone))
+                        } else {
+                            Text(text = stringResource(id = R.string.i18n_phones_hint))
+                        }
+                    },
+                )
+
+                OutlinedTextField(
+                    value = uiState.message,
+                    onValueChange = {
+                        viewModel.onMessageChange(it)
+                    },
+                    label = {
+                        Text(stringResource(id = R.string.message_hint))
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = Variables.Space300),
+                    minLines = 3,
+                    textStyle = MaterialTheme.typography.bodyMedium.copy(
+                        textDirection = TextDirection.ContentOrLtr,
+                    ),
+                    shape = unifiedRoundedShape,
+                    colors = fieldColors,
+                )
+
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = Variables.Space400),
+                    horizontalArrangement = Arrangement.spacedBy(Variables.Space300),
+                ) {
+                    Button(
+                        onClick = { viewModel.onFindClicked(isTe = false) },
+                        modifier = Modifier.weight(1f),
+                        shape = unifiedRoundedShape,
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.whatsapp),
+                            modifier = Modifier.padding(vertical = Variables.Space100)
+                        )
                     }
-                },
-            )
 
-            OutlinedTextField(
-                value = uiState.message,
-                onValueChange = {
-                    viewModel.onMessageChange(it)
-                },
-                label = {
-                    Text(stringResource(id = R.string.message_hint))
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                minLines = 3,
-                textStyle = MaterialTheme.typography.bodyMedium.copy(
-                    textDirection = TextDirection.ContentOrLtr,
-                ),
-                shape = RoundedCornerShape(unifiedRadius),
-                colors = fieldColors,
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Button(
-                    onClick = { viewModel.onFindClicked(isTe = false) },
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(unifiedRadius),
-                ) {
-                    Text(
-                        stringResource(id = R.string.whatsapp),
-                        modifier = Modifier.padding(vertical = 4.dp)
-                    )
+                    Button(
+                        onClick = { viewModel.onFindClicked(isTe = true) },
+                        modifier = Modifier.weight(1f),
+                        shape = unifiedRoundedShape,
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.telegram),
+                            modifier = Modifier.padding(vertical = Variables.Space100)
+                        )
+                    }
                 }
 
-                Button(
-                    onClick = { viewModel.onFindClicked(isTe = true) },
-                    modifier = Modifier.weight(1f),
-                    shape = RoundedCornerShape(unifiedRadius)
-                ) {
-                    Text(
-                        stringResource(id = R.string.telegram),
-                        modifier = Modifier.padding(vertical = 4.dp)
-                    )
-                }
+                HorizontalDivider(
+                    thickness = 0.dp,
+                    modifier = Modifier.padding(vertical = Variables.Space500),
+                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+                )
+
+                Text(
+                    text = stringResource(id = R.string.history),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                )
             }
 
-            HorizontalDivider(
-                thickness = 1.dp,
-                modifier = Modifier.padding(vertical = 20.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-            )
-
-            Text(
-                text = stringResource(id = R.string.history),
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 12.dp)
-            )
-
-            LazyColumn(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                items(uiState.history, key = { it.number + it.created }) { account ->
-                    HistoryItem(
-                        account = account,
-                        onClick = { viewModel.onHistoryItemClicked(account) },
-                        onDelete = { viewModel.onDeleteAccount(account) },
-                    )
-                }
+            items(uiState.history, key = { it.number + it.created }) { account ->
+                HistoryItem(
+                    account = account,
+                    onClick = { viewModel.onHistoryItemClicked(account) },
+                    onDelete = { viewModel.onDeleteAccount(account) },
+                )
             }
-
         }
+
     }
 }
