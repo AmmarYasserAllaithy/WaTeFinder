@@ -15,6 +15,7 @@ object MainContract {
 
     sealed interface Effect {
         data class OpenUrl(val url: String) : Effect
+        data class ShareUrl(val url: String) : Effect
         data class ShowToast(@StringRes val messageResId: Int) : Effect
     }
 

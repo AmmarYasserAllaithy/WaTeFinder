@@ -13,5 +13,6 @@
     <string name="invalid_phone">رقم هاتف غير صحيح!</string>
     <string name="deleted">تم الحذف!</string>
     <string name="error_occurred">حدث خطأ ما!</string>
+    <string name="share_app">مشاركة التطبيق</string>
 
 </resources>

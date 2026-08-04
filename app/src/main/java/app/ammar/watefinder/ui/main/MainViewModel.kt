@@ -2,6 +2,7 @@ package app.ammar.watefinder.ui.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.ammar.watefinder.BuildConfig
 import app.ammar.watefinder.R
 import app.ammar.watefinder.domain.model.AccountModel
 import app.ammar.watefinder.domain.repository.AccountRepository
@@ -32,6 +33,14 @@ class MainViewModel(private val repository: AccountRepository) : ViewModel() {
     private val _effects = MutableSharedFlow<MainContract.Effect>()
     val effects = _effects.asSharedFlow()
 
+
+    fun onShareClicked() {
+        val url = "https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}"
+
+        viewModelScope.launch {
+            _effects.emit(MainContract.Effect.ShareUrl(url))
+        }
+    }
 
     fun onNumberChange(newNumber: String) {
         _uiState.update { it.copy(number = newNumber, isNumberError = false) }

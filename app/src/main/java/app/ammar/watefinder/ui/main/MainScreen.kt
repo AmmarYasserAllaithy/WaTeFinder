@@ -14,9 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -63,6 +67,16 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
                     context.startActivity(intent)
                 }
 
+                is MainContract.Effect.ShareUrl -> {
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(Intent.EXTRA_TEXT, event.url)
+                    }
+                    val chooser =
+                        Intent.createChooser(intent, context.getString(R.string.share_app))
+                    context.startActivity(chooser)
+                }
+
                 is MainContract.Effect.ShowToast -> {
                     Toast.makeText(
                         context,
@@ -88,6 +102,17 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
+                actions = {
+                    IconButton(
+                        onClick = viewModel::onShareClicked
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Share,
+                            contentDescription = stringResource(R.string.share_app),
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                        )
+                    }
+                }
             )
         }
     ) { padding ->
@@ -200,17 +225,19 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
                     }
                 }
 
-                HorizontalDivider(
-                    thickness = 0.dp,
-                    modifier = Modifier.padding(vertical = Variables.Space500),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
-                )
+                if (uiState.history.isNotEmpty()) {
+                    HorizontalDivider(
+                        thickness = 0.dp,
+                        modifier = Modifier.padding(vertical = Variables.Space500),
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+                    )
 
-                Text(
-                    text = stringResource(id = R.string.history),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                )
+                    Text(
+                        text = stringResource(id = R.string.history),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
 
             items(uiState.history, key = { it.number + it.created }) { account ->
