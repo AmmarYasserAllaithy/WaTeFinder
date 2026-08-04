@@ -92,7 +92,10 @@ fun MainScreen(viewModel: MainViewModel = koinViewModel()) {
                     viewModel.onNumberChange(it)
                 },
                 label = {
-                    Text(stringResource(id = R.string.phone_hint))
+                    Text(stringResource(id = R.string.phone_label))
+                },
+                placeholder = {
+                    Text(stringResource(id = R.string.phone_placeholder))
                 },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
