@@ -1,99 +1,58 @@
 package app.ammar.watefinder
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import app.ammar.watefinder.data.Account
-import app.ammar.watefinder.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.core.text.isDigitsOnly
+import app.ammar.watefinder.ui.main.MainScreen
+import app.ammar.watefinder.ui.main.MainViewModel
+import app.ammar.watefinder.ui.theme.WaTeFinderTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainActivity : AppCompatActivity(), AccountClickListener {
+class MainActivity : ComponentActivity() {
 
-    private var _binding: ActivityMainBinding? = null
-    private val binding: ActivityMainBinding
-        get() = checkNotNull(_binding) { "Activity has been destroyed" }
-
-    private lateinit var viewModel: MainViewModel
-    private lateinit var historyAdapter: HistoryAdapter
-
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        enableEdgeToEdge()
 
-        setContentView(binding.root)
-    }
+        intent?.let { handleIntent(it) }
 
-    override fun onStart() {
-        super.onStart()
-
-        setupRecyclerAdapter()
-        setupViewModel()
-
-        with(binding) {
-            ibWa.setOnClickListener { handle(false) }
-            ibTe.setOnClickListener { handle(true) }
+        setContent {
+            WaTeFinderTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background,
+                ) {
+                    MainScreen()
+                }
+            }
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
     }
 
-
-    private fun setupRecyclerAdapter() {
-        historyAdapter = HistoryAdapter(this)
-
-        with(binding.recycler) {
-            layoutManager = LinearLayoutManager(applicationContext)
-            adapter = historyAdapter
+    private fun handleIntent(intent: Intent) {
+        if (intent.action == Intent.ACTION_SEND && intent.type == "text/plain") {
+            intent.getStringExtra(Intent.EXTRA_TEXT)?.let { sharedText ->
+                if (sharedText.isDigitsOnly())
+                    viewModel.onNumberChange(sharedText)
+                else
+                    viewModel.onMessageChange(sharedText)
+            }
         }
-    }
-
-    private fun setupViewModel() {
-        try {
-            viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-            viewModel.history.observe(this) { historyAdapter.submitList(it) }
-
-        } catch (ex: Exception) {
-            Toast.makeText(this, "ERROR:\n$ex", Toast.LENGTH_LONG).show()
-            Log.e("__setup_View_Model", ex.toString())
-        }
-    }
-
-    private fun handle(isTe: Boolean) {
-        val format = binding.etNumber.text.trim().toString()
-        val message = binding.etText.text.trim().toString()
-        var number = format.replace("\\D+".toRegex(), "")
-
-        if (number.length < 11) {
-            Toast.makeText(this, "Invalid phone number!", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        if (number.length == 11 && number.startsWith("01")) number = "2$number"
-
-        val account = Account(number, format, message)
-        viewModel.find(account, isTe)
-    }
-
-
-    override fun onAccountClick(account: Account) = with(binding) {
-        etNumber.setText(account.displayFormat)
-        etText.setText(account.message)
-    }
-
-    override fun onAccountDelete(account: Account) {
-        val deleted = viewModel.delete(account) > 0
-        val text = if (deleted) "Deleted!" else "An error occurred!"
-
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 
 }

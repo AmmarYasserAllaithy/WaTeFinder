@@ -1,19 +1,22 @@
-package app.ammar.watefinder;
+package app.ammar.watefinder
 
 import android.app.Application
-import android.content.Context
+import app.ammar.watefinder.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 
 class FinderApp : Application() {
 
-    init {
-        app = this
+    override fun onCreate() {
+        super.onCreate()
+
+        startKoin {
+            androidLogger()
+            androidContext(this@FinderApp)
+            modules(appModule)
+        }
     }
-    
-    companion object {
-        private lateinit var app: FinderApp
-        
-        fun getAppCtx(): Context = app.applicationContext
-    }
-    
+
 }
